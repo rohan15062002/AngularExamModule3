@@ -16,14 +16,19 @@ export class CustomerDashboardComponent {
   loading = false;
   products:Product[]=[];
   isAdmin!:boolean;
-  
+  filteredProducts: Product[] = [];
   constructor(private productService:ProductsService, private router:Router){
   
   }
   
   async ngOnInit(): Promise<void> {
+    this.loading=true;
     this.productService.getProductsObservable().subscribe((products:Product[])=>{
       this.products=products;
+      this.filteredProducts = this.products.filter(product => product.quantity > 0);
+      console.log(this.filteredProducts)
+      this.products=this.filteredProducts
+      this.loading = false;
     })
 
   }
@@ -35,6 +40,10 @@ export class CustomerDashboardComponent {
 
   myOrder(){
     return this.router.navigateByUrl('order')
+  }
+
+  myCart(){
+    return this.router.navigateByUrl('cart')
   }
   viewProduct(arg0: any){
     console.log(arg0)

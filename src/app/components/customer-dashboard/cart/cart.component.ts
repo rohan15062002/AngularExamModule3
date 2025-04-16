@@ -3,6 +3,7 @@ import { ProductsService } from '../../../core/services/product.service';
 import { Product, User } from '../../../app.model';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -15,17 +16,18 @@ export class CartComponent {
 
   CartItems:Product[]=[];
   user!:User;
-
-  constructor(private productService:ProductsService){
+  loading=false;
+  constructor(private productService:ProductsService,private router:Router){
 
   }
 
   ngOnInit(): void {
   this.user = JSON.parse(sessionStorage.getItem('user') || '{}');
-  
+  this.loading=true;
   if (this.user.email) {
     this.productService.getCartForUser(this.user.email).subscribe((products: Product[]) => {
       this.CartItems = products;
+      this.loading=false;
     });
     console.log(this.CartItems)
   } else {
@@ -34,10 +36,13 @@ export class CartComponent {
   }
 
   checkout(item:Product){
+    console.log(item.id)
     this.productService.checkout(item);
+    console.log("check out done")
   }
 
   buy(item:Product){
     this.productService.buy(item);
+    this.router.navigateByUrl('order')
   }
 }

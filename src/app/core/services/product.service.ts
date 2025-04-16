@@ -53,8 +53,10 @@ export class ProductsService {
   }
 
   checkout(product: Product) {
+    console.log(product.id)
     const productRef = doc(this.firestore, `products/${product.id}`);
     getDoc(productRef).then(docSnap => {
+      console.log(docSnap.exists())
       if (docSnap.exists()) {
         const productData = docSnap.data() as Product;
         const newQuantity = Math.max(0, productData.quantity + product.quantity);

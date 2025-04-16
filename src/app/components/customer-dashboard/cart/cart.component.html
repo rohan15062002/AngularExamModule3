@@ -11,6 +11,9 @@
 
 <ng-template #emptyCart>
   <div class="empty-cart">
-    <p>Your cart is empty.</p>
+    @if(loading){
+      <p>Loading</p>
+    }
+    @else{<p>Your cart is empty.</p>}
   </div>
 </ng-template>
