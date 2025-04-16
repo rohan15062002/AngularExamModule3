@@ -1,0 +1,43 @@
+<app-navbar title="Customer Dashboard"></app-navbar>
+
+<div class="orders-container">
+  <h2>Orders</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Description</th>
+        <th>Quantity</th>
+        <th *ngIf="isAdminRole === 'admin'">Select Order Status</th>
+        <th>Status</th>
+        <th>Order Date & Time</th>
+        <th *ngIf="isAdminRole !== 'admin'">Ordered By</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <td>{{ order.name }}</td>
+        <td>{{ order.description }}</td>
+        <td>{{ order.quantity }}</td>
+
+        <!-- Show dropdown only for admin -->
+        <td *ngIf="isAdminRole === 'admin'">
+          <select (change)="updateOrderStatus(order, $event)">
+            <option value="Placed" [selected]="order.status === 'Placed'">Placed</option>
+            <option value="Processing" [selected]="order.status === 'Processing'">Processing</option>
+            <option value="On the way" [selected]="order.status === 'On the way'">On the way</option>
+            <option value="Delivered" [selected]="order.status === 'Delivered'">Delivered</option>
+          </select>
+        </td>
+
+        <!-- Always show status text -->
+        <td>{{ order.status }}</td>
+        <td>{{ order.timestamp }}</td>
+
+        <!-- Show customer info only if NOT admin -->
+        <td *ngIf="isAdminRole !== 'admin'">{{ userName }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

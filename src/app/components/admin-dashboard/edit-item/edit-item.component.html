@@ -1,0 +1,81 @@
+<!-- <app-navbar title="Admin Dashboard"></app-navbar> -->
+<div class="add-exam-container">
+    <h1>Add Product</h1>
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      
+      
+      <div class="form-group">
+        <label for="name">Product Name</label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          placeholder="Enter Product Name"
+          [class.invalid]="
+            productForm.get('name')?.invalid && productForm.get('name')?.touched
+          "
+        />
+        <div
+          class="error"
+          *ngIf="
+            productForm.get('name')?.hasError('required') &&
+            productForm.get('name')?.touched
+          "
+        >
+          Product Name is required.
+        </div>
+      </div>
+      <p>{{"Availability Status: " + productForm.status}}</p>
+      
+      <div class="form-group">
+        <label for="description">Product Description</label>
+        <input
+          id="description"
+          type="text"
+          formControlName="description"
+          placeholder="Enter Product Description"
+          [class.invalid]="
+            productForm.get('description')?.invalid && productForm.get('description')?.touched
+          "
+        />
+        <div
+          class="error"
+          *ngIf="
+            productForm.get('description')?.hasError('required') &&
+            productForm.get('description')?.touched
+          "
+        >
+          Product Description is required.
+        </div>
+      </div>
+  
+    
+      <div class="form-group">
+        <label for="quantity">Product Quantity</label>
+        <input
+          id="quantity"
+          type="number"
+          formControlName="quantity"
+          min="0"
+          placeholder="Enter Quantity"
+          [class.invalid]="
+            productForm.get('quantity')?.invalid && productForm.get('quantity')?.touched
+          "
+        />
+        <div
+          class="error"
+          *ngIf="
+            productForm.get('quantity')?.hasError('required') &&
+            productForm.get('quantity')?.touched
+          "
+        >
+          Product Quantity is required.
+        </div>
+      </div>
+  
+      <button type="submit">Add Product</button>
+    </form>
+  </div>
+
+ 
+  

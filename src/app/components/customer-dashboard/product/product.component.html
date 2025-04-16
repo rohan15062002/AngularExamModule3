@@ -1,0 +1,23 @@
+<app-navbar title="Customer Dashboard"></app-navbar>
+<div class="product-container">
+    <div class="product-card" *ngIf="product">
+        <h2 class="product-title">{{product.name}}</h2>
+        <div class="product-details">
+            <p class="product-info"><strong>Description:</strong> {{product.description}}</p>
+            <p class="product-info"><strong>Quantity:</strong> {{product.quantity}}</p>
+            <p class="product-info"><strong>Availability:</strong> 
+                <span class="status-badge" [class.in-stock]="product.status === 'In Stock'"
+                                      [class.out-of-stock]="product.status === 'Out of Stock'">
+                    {{product.status}}
+                </span>
+            </p>
+        </div>
+        <div class="quantity-controls">
+            <button class="quantity-btn decrease" (click)="decreaseQuantity(product)" 
+                    [disabled]="product.quantity === 0">-</button>
+            <span class="quantity-display">{{product.quantity}}</span>
+            <button class="quantity-btn increase" (click)="increaseQuantity(product)">+</button>
+        </div>
+        <button class="save-btn" (click)="update(product)">Save Changes</button>
+    </div>
+</div>

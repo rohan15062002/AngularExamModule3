@@ -1,0 +1,72 @@
+<app-navbar title="Admin Dashboard"></app-navbar>
+<div class="add-exam-container">
+  <h1>Add Task</h1>
+  <form [formGroup]="addItemForm" (ngSubmit)="onSubmit()">
+    <!-- Title -->
+    <div class="form-group">
+      <label for="name">Product Name</label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        placeholder="Enter Product Name"
+        [class.invalid]="
+          addItemForm.get('name')?.invalid && addItemForm.get('name')?.touched
+        "
+      />
+      <div
+        class="error"
+        *ngIf="
+          addItemForm.get('name')?.hasError('required') &&
+          addItemForm.get('name')?.touched
+        "
+      >
+        Product Name is required.
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description">Project Descprition</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        placeholder="Enter Project Name"
+        [class.invalid]="
+          addItemForm.get('description')?.invalid && addItemForm.get('description')?.touched
+        "></textarea>
+      <div
+        class="error"
+        *ngIf="
+          addItemForm.get('description')?.hasError('required') &&
+          addItemForm.get('description')?.touched
+        "
+      >
+      Project Description is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+        <label for="quantity">Project Quantity</label>
+        <input
+          id="quantity"
+          formControlName="quantity"
+          min="0"
+          [class.invalid]="
+            addItemForm.get('quantity')?.invalid && addItemForm.get('quantity')?.touched
+          "
+        />
+        <div
+          class="error"
+          *ngIf="
+            addItemForm.get('quantity')?.hasError('required') &&
+            addItemForm.get('quantity')?.touched
+          "
+        >
+        Project Quantity is required.
+        </div>
+      </div>
+
+    <button type="submit">Add Task</button>
+  </form>
+</div>

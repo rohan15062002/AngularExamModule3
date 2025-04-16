@@ -1,0 +1,16 @@
+<app-navbar title="Customer Dashboard"></app-navbar>
+
+<div *ngIf="CartItems && CartItems.length > 0; else emptyCart">
+  <div *ngFor="let item of CartItems">
+    <p>{{ item.name }}</p>
+    <p>{{ "Quantity: " + item.quantity }}</p>
+    <button (click)="checkout(item)">Checkout</button>
+    <button (click)="buy(item)">Buy</button>
+  </div>
+</div>
+
+<ng-template #emptyCart>
+  <div class="empty-cart">
+    <p>Your cart is empty.</p>
+  </div>
+</ng-template>
