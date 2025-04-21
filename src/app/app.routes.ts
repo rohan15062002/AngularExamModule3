@@ -45,6 +45,8 @@ export const routes: Routes = [
     {
         path: 'view/:id',
         loadComponent: () => import('./components/customer-dashboard/product/product.component').then(m => m.ProductComponent),
+        canActivate: [AuthGuard],
+    data: { roles: ['admin', 'customer'] }
     },
     {
         path: 'cart',
