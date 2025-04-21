@@ -1,4 +1,4 @@
-<app-navbar title="Customer Dashboard"></app-navbar>
+<app-navbar title="{{role}} Dashboard"></app-navbar>
 <div class="product-container">
     <div class="product-card" *ngIf="product">
         <h2 class="product-title">{{product.name}}</h2>
@@ -14,9 +14,13 @@
         </div>
         <div class="quantity-controls">
             <button class="quantity-btn decrease" (click)="decreaseQuantity(product)" 
-                    [disabled]="product.quantity === 0">-</button>
-            <span class="quantity-display">{{product.quantity}}</span>
-            <button class="quantity-btn increase" (click)="increaseQuantity(product)">+</button>
+                    [disabled]="product.quantity === 0" *ngIf="role==='admin'">-</button>
+            <button class="quantity-btn decrease" (click)="decreaseQuantity(product)" 
+            [disabled]="count === 0" *ngIf="role==='customer'">-</button>
+            <span class="quantity-display" *ngIf="role==='admin'">{{product.quantity}}</span>
+            <span class="quantity-display" *ngIf="role==='customer'">{{count}}</span>
+            <button class="quantity-btn increase" (click)="increaseQuantity(product)" *ngIf="role==='admin'">+</button>
+            <button class="quantity-btn increase" (click)="increaseQuantity(product)" *ngIf="role==='customer'" [disabled]="product.quantity === 0">+</button>
         </div>
         <button class="save-btn" (click)="update(product)">Save Changes</button>
     </div>

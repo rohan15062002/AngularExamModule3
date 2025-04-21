@@ -37,19 +37,23 @@ export class ProductsService {
 
   addToCart(product: Product) {
     const user = JSON.parse(sessionStorage.getItem('user') || '{}');
-    console.log(user)
+    console.log(user,"user")
     product.userEmail = user.email;
     product.userName = user.username;
-
-    const cartDocRef = doc(this.firestore, `cart/${product.id}_${user.email}`);
+    console.log(product,"product")
+    const cartDocRef = doc(this.firestore, `cart/${product.id}`);
     getDoc(cartDocRef).then(docSnap => {
+      console.log(docSnap.exists())
       if (docSnap.exists()) {
         const cartProduct = docSnap.data() as Product;
-        setDoc(cartDocRef, { ...product,quantity: (cartProduct.quantity || 0) + 1 });
+        console.log(cartProduct,"cartProduct")
+        console.log(cartProduct)
+        setDoc(cartDocRef, { ...product,quantity: (cartProduct.quantity || 0) + 1 }, { merge: true });
       } 
-      // else {
-      //   setDoc(cartDocRef, { ...product, quantity: 1 });
-      // }
+      else {
+        console.log(product,"product in cart")
+        setDoc(cartDocRef, { ...product, quantity: 1 }, { merge: true });
+      }
     });
   }
 
@@ -99,14 +103,15 @@ export class ProductsService {
     getDoc(cartRef).then(docSnap => {
       if (docSnap.exists()) {
         const cartItem = docSnap.data() as Product;
+        console.log(cartItem,"cartItem")
         const newQuantity = Math.max(0, (cartItem.quantity || 0) + change);
         if (newQuantity === 0 || change === 0) {
           deleteDoc(cartRef);
         } else {
-          setDoc(cartRef, { ...product,quantity: newQuantity });
+          setDoc(cartRef, { ...product,quantity: newQuantity }, { merge: true });
         }
       } else if (change > 0) {
-        setDoc(cartRef, { ...product, quantity: change });
+        setDoc(cartRef, { ...product, quantity: change }, { merge: true });
       }
     });
   }
@@ -137,7 +142,8 @@ export class ProductsService {
     return updateDoc(productRef, {
       name: updatedProduct.name,
       description: updatedProduct.description,
-      quantity: updatedProduct.quantity
+      quantity: updatedProduct.quantity,
+      status: updatedProduct.status,
     });
   }
   
