@@ -1,4 +1,4 @@
-<app-navbar title="Customer Dashboard"></app-navbar>
+<app-navbar title="{{user.role}} Dashboard"></app-navbar>
 
 <div class="orders-container">
   <h2>Orders</h2>
@@ -12,7 +12,7 @@
         <th *ngIf="isAdminRole === 'admin'">Select Order Status</th>
         <th>Status</th>
         <th>Order Date & Time</th>
-        <th *ngIf="isAdminRole !== 'admin'">Ordered By</th>
+        <th *ngIf="isAdminRole === 'admin'">Ordered By</th>
       </tr>
     </thead>
     <tbody>
@@ -36,7 +36,7 @@
         <td>{{ order.timestamp }}</td>
 
         <!-- Show customer info only if NOT admin -->
-        <td *ngIf="isAdminRole !== 'admin'">{{ userName }}</td>
+        <td *ngIf="isAdminRole === 'admin'">{{ order.userName }}</td>
       </tr>
     </tbody>
   </table>

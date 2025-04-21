@@ -35,7 +35,9 @@ export class OrderComponent {
       if (this.isAdminRole=='admin') {
         this.productService.getOrders().subscribe((products: Product[]) => {
           this.orders = products;
+          console.log(this.orders)
         });
+       
       } 
       else if (this.user.email) {
         this.productService.getOrdersForUser(this.user.email).subscribe((products: Product[]) => {
