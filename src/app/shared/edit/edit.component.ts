@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit',
@@ -14,7 +15,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 export class EditComponent {
   editForm!: FormGroup;
   role:string="";
-  constructor(private fb: FormBuilder,private authService:AuthService) {}
+  constructor(private fb: FormBuilder,private authService:AuthService,private router:Router) {}
 
   ngOnInit(): void {
     this.editForm = this.fb.group({
@@ -23,7 +24,7 @@ export class EditComponent {
       role: ['', Validators.required],
       phone: ['',Validators.required],
       address: ['',Validators.required],
-      pincode: ['',Validators.required]
+      pinCode: ['',Validators.required]
     });
 
     // Optionally, pre-fill form with user data for editing
@@ -32,20 +33,20 @@ export class EditComponent {
 
   loadUserData(): void {
     // Example user data - replace with real data fetching logic
-    const userString = sessionStorage.getItem('user');
-    if(userString){
-      const user = JSON.parse(userString);
-    console.log(user,"user")
+    const user = this.authService.currentUser;
+    if(user){
     const userData = {
-      username: user.username,
-      email: user.email,
-      role: user.role,
-      phone: user.phone,
-      address: user.address,
-      pincode: user.pinCode
+      username: user?.username,
+      email: user?.email,
+      role: user?.role,
+      phone: user?.phone,
+      address: user?.address,
+      pinCode: user?.pinCode
     };
-    this.role=user.role;
-
+    console.log("UserData",this.authService.currentUser)
+    console.log(this.authService.currentUser?.pinCode)
+    console.log("Current User Object:", userData);
+    this.role = user?.role;
     this.editForm.patchValue(userData);
   }
   }
@@ -55,6 +56,11 @@ export class EditComponent {
     if (this.editForm.valid) {
       this.authService.updateUser(this.editForm.value);
       console.log('Updated User Data:', this.editForm.value);
+      if(this.role!=this.editForm.value.role){
+        alert("User Updated Successfully")
+        this.authService.signOut();
+      }
+      this.router.navigateByUrl(`dashboard/${this.role}`)
     } else {
       this.editForm.markAllAsTouched(); 
     }

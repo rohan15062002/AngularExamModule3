@@ -15,6 +15,7 @@ import { doc, setDoc } from 'firebase/firestore';
 
 interface CurrentUser {
   uid: string;
+  username:string;
   name:string;
   email: string;
   phone:string;
@@ -115,6 +116,7 @@ export class AuthService {
   }
   
   async updateUser(updatedUserData: CurrentUser) {
+    const uid = this.currentUser?.uid;
     console.log(updatedUserData,"updated")
     const userRef = collection(this.firestore, `users`);
     const q = query(userRef, where('email', '==', this.currentUser?.email));
@@ -124,9 +126,9 @@ export class AuthService {
     }
 
     const userDoc = querySnapshot.docs[0]; // assuming email is unique
+    console.log(userDoc.id)
     const userDocRef = doc(this.firestore, 'users', userDoc.id);
-
-    await setDoc(userDocRef, { ...updatedUserData });
+    await setDoc(userDocRef, { ...updatedUserData,uid: uid});
   }
 
   async signOut():Promise<void>{
