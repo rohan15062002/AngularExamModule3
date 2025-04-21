@@ -36,8 +36,12 @@ export class AuthGuard implements CanActivate {
         return true;
       }
     }
-
-    this.router.navigate(['auth'], { replaceUrl: true });
-    return false;
+    
+    if(role=='customer'){
+      this.router.navigateByUrl('dashboard/customer')
+  }else{
+    this.router.navigateByUrl('dashboard/admin')
   }
+  return false;
+}
 }

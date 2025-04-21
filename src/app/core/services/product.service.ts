@@ -45,10 +45,11 @@ export class ProductsService {
     getDoc(cartDocRef).then(docSnap => {
       if (docSnap.exists()) {
         const cartProduct = docSnap.data() as Product;
-        setDoc(cartDocRef, { quantity: (cartProduct.quantity || 0) + 1 });
-      } else {
-        setDoc(cartDocRef, { ...product, quantity: 1 });
-      }
+        setDoc(cartDocRef, { ...product,quantity: (cartProduct.quantity || 0) + 1 });
+      } 
+      // else {
+      //   setDoc(cartDocRef, { ...product, quantity: 1 });
+      // }
     });
   }
 
@@ -102,7 +103,7 @@ export class ProductsService {
         if (newQuantity === 0 || change === 0) {
           deleteDoc(cartRef);
         } else {
-          setDoc(cartRef, { quantity: newQuantity });
+          setDoc(cartRef, { ...product,quantity: newQuantity });
         }
       } else if (change > 0) {
         setDoc(cartRef, { ...product, quantity: change });

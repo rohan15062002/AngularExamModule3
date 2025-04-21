@@ -74,7 +74,8 @@ private async login(email: string, password: string) {
       alert('Login failed: Unable to fetch user details.');
     }
   } catch (error: unknown) {
-    alert(`Login failed: ${(error as Error).message}`);
+    // alert(`Login failed: ${(error as Error).message}`);
+    this.router.navigateByUrl('register')
   }
 }
 }
