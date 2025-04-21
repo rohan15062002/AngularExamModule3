@@ -1,0 +1,80 @@
+<app-navbar title="{{role}} Dashboard"></app-navbar>
+<div class="container">
+    <div class="form-container" [formGroup]="editForm" (ngSubmit)="onSubmit()">
+      <h1>Edit User</h1>
+      <form>
+  
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          required
+          formControlName="username"
+          [class.invalid]="editForm.get('username')?.invalid && editForm.get('username')?.touched"
+        />
+        <div class="error" *ngIf="editForm.get('username')?.hasError('required') && editForm.get('username')?.touched">
+          Username is required.
+        </div>
+  
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          formControlName="email"
+          [class.invalid]="editForm.get('email')?.invalid && editForm.get('email')?.touched"
+          readonly
+        />
+        <div class="error" *ngIf="editForm.get('email')?.hasError('required') && editForm.get('email')?.touched">
+          Email is required.
+        </div>
+  
+        <label for="role">Role</label>
+        <select
+          id="role"
+          name="role"
+          required
+          formControlName="role"
+          [class.invalid]="editForm.get('role')?.invalid && editForm.get('role')?.touched"
+        >
+          <option value="">Select role</option>
+          <option value="admin">Admin</option>
+          <option value="customer">Customer</option>
+        </select>
+        <div class="error" *ngIf="editForm.get('role')?.hasError('required') && editForm.get('role')?.touched">
+          Role is required.
+        </div>
+  
+        <label for="phone">Phone Number</label>
+        <input
+          type="number"
+          id="phone"
+          name="phone"
+          formControlName="phone"
+          [class.invalid]="editForm.get('phone')?.invalid && editForm.get('phone')?.touched"
+        />
+  
+        <label for="address">Address</label>
+        <textarea
+          id="address"
+          name="address"
+          formControlName="address"
+          [class.invalid]="editForm.get('address')?.invalid && editForm.get('address')?.touched"
+        ></textarea>
+  
+        <label for="pincode">Pin Code</label>
+        <input
+          type="number"
+          id="pincode"
+          name="pincode"
+          formControlName="pincode"
+          [class.invalid]="editForm.get('pincode')?.invalid && editForm.get('pincode')?.touched"
+        />
+  
+        <button type="submit">Update User</button>
+      </form>
+    </div>
+  </div>
+  

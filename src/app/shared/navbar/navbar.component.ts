@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [],
+  imports: [TitleCasePipe],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -25,5 +26,8 @@ export class NavbarComponent {
   }
   logout(){
     this.fireauthService.signOut()
+  }
+  edit(){
+    this.router.navigateByUrl(`edituser/${this.fireauthService.getUserId()}`)
   }
 }

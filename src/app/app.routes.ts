@@ -39,6 +39,12 @@ export const routes: Routes = [
         data: { role: 'admin' }
     },
     {
+        path: 'edituser/:id',
+        loadComponent: () => import('./shared/edit/edit.component').then(m => m.EditComponent),
+        canActivate: [AuthGuard],
+        data: { roles: ['admin', 'customer'] }
+    },
+    {
         path:'order',
         component:OrderComponent
     },
@@ -46,7 +52,7 @@ export const routes: Routes = [
         path: 'view/:id',
         loadComponent: () => import('./components/customer-dashboard/product/product.component').then(m => m.ProductComponent),
         canActivate: [AuthGuard],
-    data: { roles: ['admin', 'customer'] }
+        data: { roles: ['admin', 'customer'] }
     },
     {
         path: 'cart',

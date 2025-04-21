@@ -10,6 +10,8 @@ import {
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { sendEmailVerification } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+
 
 interface CurrentUser {
   uid: string;
@@ -111,6 +113,21 @@ export class AuthService {
       });
     return res;
   }
+  
+  async updateUser(updatedUserData: CurrentUser) {
+    console.log(updatedUserData,"updated")
+    const userRef = collection(this.firestore, `users`);
+    const q = query(userRef, where('email', '==', this.currentUser?.email));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      throw new Error('User not found with this email');
+    }
+
+    const userDoc = querySnapshot.docs[0]; // assuming email is unique
+    const userDocRef = doc(this.firestore, 'users', userDoc.id);
+
+    await setDoc(userDocRef, { ...updatedUserData });
+  }
 
   async signOut():Promise<void>{
     await signOut(this.auth);
@@ -134,5 +151,9 @@ export class AuthService {
 
   getUserName(): string|null{
     return this.currentUser?.name || null;
+  }
+
+  getUserId():string|null{
+    return this.currentUser?.uid || null;
   }
 }
